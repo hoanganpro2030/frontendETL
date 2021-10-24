@@ -1,0 +1,15 @@
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-left: 1px solid #ddd;
+    border-bottom: none;
+    border-top: none;
+  }
+  
+  .name-col {
+    width: 90%;
+  }
+  
+  .status-col {
+    width: 10%;
+  }
