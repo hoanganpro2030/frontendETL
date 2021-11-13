@@ -3,19 +3,22 @@
         <span class="lable-top"><h2>New ETL</h2></span>
     </div>
     <div class="col-2 offset-8">
-        <a class="btn btn-danger" routerLink="/create-new-etl">Cancle</a> 
+        <a class="btn btn-danger" routerLink="/etl-list">Cancle</a>
     </div>
 </div>
 
 <mat-horizontal-stepper linear #stepper class="offset-1 col-10">
-    <mat-step [stepControl]="firstFormGroup" [editable]="true">
-        <form [formGroup]="firstFormGroup">
+    <mat-step [stepControl]="selecSourcetFormGroup" [editable]="true">
+        <form [formGroup]="selecSourcetFormGroup">
         <ng-template matStepLabel>Select source</ng-template>
         <mat-form-field appearance="fill" class="example-half-width">
             <mat-label>Source</mat-label>
             <!-- <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required> -->
-            <mat-select formControlName="firstCtrl">
-                <mat-option value="option">Postgresql</mat-option>
+            <mat-select formControlName="sourceCtrl">
+                <mat-option value="Postgresql">Postgresql</mat-option>
+                <mat-option value="MongoDB">MongoDB</mat-option>
+                <mat-option value="SQLServer">SQL Server</mat-option>
+                <mat-option value="MySQL">MySQL</mat-option>
             </mat-select>
         </mat-form-field>
         <div>
@@ -23,145 +26,145 @@
         </div>
         </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" [editable]="true">
-        <form [formGroup]="secondFormGroup">
+    <mat-step [stepControl]="infoSoureFormGroup" [editable]="true">
+        <form [formGroup]="infoSoureFormGroup">
         <ng-template matStepLabel>Info source</ng-template>
         <p>
             <mat-form-field appearance="fill" class="example-half-width">
                 <mat-label>Host</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="hostSrcCtrl"
                         required>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill" class="example-half-width">
                 <mat-label>Port</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="portSrcCtrl"
                         required>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill" class="example-half-width">
                 <mat-label>Username</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="usernameSrcCtrl"
                         required>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill" class="example-half-width">
                 <mat-label>Password</mat-label>
-                <input type="password" matInput formControlName="secondCtrl"
+                <input type="password" matInput formControlName="passwordSrcCtrl"
                         required>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill" class="example-half-width">
                 <mat-label>Database</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="databaseSrcCtrl"
                         required>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill" class="example-half-width">
                 <mat-label>Schema</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="schemaSrcCtrl"
                         required>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill" class="example-half-width">
                 <mat-label>Table</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="tableSrcCtrl"
                         required>
             </mat-form-field>
         </p>
         <div>
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
-            <button mat-button matStepperNext class="btn btn-success">Next</button>
+            <button mat-button matStepperNext (click)="onSubmitSource()" class="btn btn-success">Next</button>
         </div>
         </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" [editable]="true">
-        <form [formGroup]="secondFormGroup">
+    <mat-step [stepControl]="infoDestinationFormGroup" [editable]="true">
+        <form [formGroup]="infoDestinationFormGroup">
             <ng-template matStepLabel>Info destination</ng-template>
             <p>
                 <mat-form-field appearance="fill" class="example-half-width">
                     <mat-label>Host</mat-label>
-                    <input matInput formControlName="secondCtrl"
+                    <input matInput formControlName="hostDesCtrl"
                             required>
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field appearance="fill" class="example-half-width">
                     <mat-label>Port</mat-label>
-                    <input matInput formControlName="secondCtrl"
+                    <input matInput formControlName="portDesCtrl"
                             required>
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field appearance="fill" class="example-half-width">
                     <mat-label>Username</mat-label>
-                    <input matInput formControlName="secondCtrl"
+                    <input matInput formControlName="usernameDesCtrl"
                             required>
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field appearance="fill" class="example-half-width">
                     <mat-label>Password</mat-label>
-                    <input type="password" matInput formControlName="secondCtrl"
+                    <input type="password" matInput formControlName="passwordDesCtrl"
                             required>
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field appearance="fill" class="example-half-width">
                     <mat-label>Database</mat-label>
-                    <input matInput formControlName="secondCtrl"
+                    <input matInput formControlName="databaseDesCtrl"
                             required>
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field appearance="fill" class="example-half-width">
                     <mat-label>Schema</mat-label>
-                    <input matInput formControlName="secondCtrl"
+                    <input matInput formControlName="schemaDesCtrl"
                             required>
                 </mat-form-field>
             </p>
             <p>
                 <mat-form-field appearance="fill" class="example-half-width">
                     <mat-label>Table</mat-label>
-                    <input matInput formControlName="secondCtrl"
+                    <input matInput formControlName="tableDesCtrl"
                             required>
                 </mat-form-field>
             </p>
         <div>
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
-            <button mat-button matStepperNext class="btn btn-success">Next</button>
+            <button mat-button matStepperNext class="btn btn-success" (click)="onSubmitDes()">Next</button>
         </div>
         </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" [editable]="true">
-        <form [formGroup]="secondFormGroup">
+    <mat-step [stepControl]="mappingColumnFormGroup" [editable]="true">
+        <form [formGroup]="mappingColumnFormGroup">
         <ng-template matStepLabel>Mapping column</ng-template>
         <p>
             <mat-form-field appearance="fill" class="example-full-width">
                 <mat-label>Source</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="columnSrcCtrl"
                         required>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill" class="example-full-width">
                 <mat-label>Destination</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="columnDesCtrl"
                         required>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="fill" class="example-full-width">
                 <mat-label>Mapping</mat-label>
-                <input matInput formControlName="secondCtrl"
+                <input matInput formControlName="mappingCtrl"
                         required>
             </mat-form-field>
         </p>
@@ -172,22 +175,22 @@
         </div>
         </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" [editable]="true">
-        <form [formGroup]="secondFormGroup">
+    <mat-step [stepControl]="configEtlFormGroup" [editable]="true">
+        <form [formGroup]="configEtlFormGroup">
             <ng-template matStepLabel>Config ETL</ng-template>
             <p>
                 <mat-form-field appearance="fill" class="example-half-width">
                     <mat-label>Name ETL</mat-label>
-                    <input matInput formControlName="secondCtrl"
+                    <input matInput formControlName="nameEtlCtrl"
                             required>
                 </mat-form-field>
             </p>
             <div>
             <button class="btn btn-danger" mat-button matStepperPrevious>Back</button>
             &nbsp;&nbsp;
-            <button mat-button (click)="stepper.reset()" class="btn btn-success">Start</button>
+            <button mat-button (click)="onSubmitAllInformation()" class="btn btn-success">Start</button>
             </div>
         </form>
-        
+
     </mat-step>
 </mat-horizontal-stepper>
