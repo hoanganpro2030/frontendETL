@@ -15,6 +15,7 @@
         <thead>
         <tr>
         <th class="name-col text">Name</th>
+        <th class="date-col text">Last Integration</th>
         <th class="status-col text">Status</th>
         </tr>
         </thead>
@@ -22,6 +23,7 @@
         <tr *ngFor="let etl of etls">
             <th class="number-table text"><a class="text"
                                             routerLink="/etl-detail/{{etl.name}}">{{etl.name}}</a></th>
+            <th class="text">{{etl.last_ingest_success}}</th>
             <th class="text"><mat-slide-toggle [(ngModel)]="etl.status" (click)="onChangeStatus(etl.name)"></mat-slide-toggle></th>
         </tr>
         </tbody>

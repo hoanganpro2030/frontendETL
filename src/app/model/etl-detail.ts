@@ -7,6 +7,7 @@ export interface EtlDetail {
     source_database: string,
     source_host: string,
     source_schema: string,
-    source_table: string
+    source_table: string,
+    log: string
 }
   

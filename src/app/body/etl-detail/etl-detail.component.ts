@@ -12,6 +12,7 @@ import { ClientServiceService } from 'src/app/shared/client-service.service';
 export class EtlDetailComponent implements OnInit {
   public etlName: string;
   public etl: EtlDetail;
+  public log: string = null;
   constructor(private clientService: ClientServiceService, private router: Router,
     private route: ActivatedRoute) { }
 
@@ -25,7 +26,7 @@ export class EtlDetailComponent implements OnInit {
   onDelete(): void {
     this.clientService.deleteEtl(this.etlName).subscribe(res => {
       console.log(res);
-      this.router.navigate
+      this.router.navigateByUrl('etl-list');
     })
   }
 
