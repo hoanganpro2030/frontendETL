@@ -22,6 +22,7 @@ export class CreateNewEtlComponent implements OnInit {
   desInfo: ConnectionInfo;
   sourceInfo: ConnectionInfo;
   mappingInfo: {};
+  showLoading = false;
 
   @ViewChild('buttonNextValidateSrc') buttonNextValidateSrc : ElementRef;
   @ViewChild('buttonNextValidateDes') buttonNextValidateDes : ElementRef;
@@ -72,12 +73,15 @@ export class CreateNewEtlComponent implements OnInit {
         'table_name': this.infoSoureFormGroup.value.tableSrcCtrl
       };
       console.log(this.sourceInfo);
+      this.showLoading = true;
       this.clientService.validateInfoSource(this.sourceInfo).subscribe(response => {
+        this.showLoading = false;
         if (response['reason']) {
           this.notificationService.notify(NotificationType.ERROR, response['reason']);
         } else {
           let el: HTMLElement = this.buttonNextValidateSrc.nativeElement as HTMLElement;
           el.click();
+          this.sourceInfo['id'] = response['source']['id'];
         }
       });
     }
@@ -96,11 +100,14 @@ export class CreateNewEtlComponent implements OnInit {
         'table_name': this.infoDestinationFormGroup.value.tableDesCtrl
       };
       console.log(this.desInfo);
+      this.showLoading = true;
       this.clientService.validateInfoDestination(this.desInfo).subscribe(response => {
         if (response['reason']) {
           this.notificationService.notify(NotificationType.ERROR, response['reason']);
         } else {
+          this.desInfo['id'] = response['source']['id'];
           this.clientService.getCols(this.sourceInfo, this.desInfo).subscribe(res => {
+            this.showLoading = false;
             if (res['reason']) {
               this.notificationService.notify(NotificationType.ERROR, res['reason']);
             } else {
@@ -123,9 +130,11 @@ export class CreateNewEtlComponent implements OnInit {
   }
 
   onValidateMapping(): void {
+    this.showLoading = true;
     this.clientService.mappingCols(this.mappingColumnFormGroup.value.columnSrcCtrl, 
       this.mappingColumnFormGroup.value.columnDesCtrl, 
       this.mappingColumnFormGroup.value.mappingCtrl).subscribe(res => {
+        this.showLoading = false;
         if (res['reason']) {
           this.notificationService.notify(NotificationType.ERROR, res['reason']);
         } else {
@@ -138,11 +147,13 @@ export class CreateNewEtlComponent implements OnInit {
   }
 
   onSubmitAllInformation() : void {
+    this.showLoading = true;
     this.clientService.submitAllInfo(this.sourceInfo, 
       this.desInfo, 
       this.mappingInfo,
       this.mappingColumnFormGroup.value.keyCtrl, 
       this.selecSourcetFormGroup.value.nameEtlCtrl).subscribe(res => {
+        this.showLoading = false;
         if (res['reason']) {
           this.notificationService.notify(NotificationType.ERROR, res['reason']);
         } else {

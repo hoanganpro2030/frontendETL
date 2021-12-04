@@ -91,7 +91,7 @@
         <div>
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
-            <button mat-button (click)="onSubmitSource()" class="btn btn-success">Next</button>
+            <button [disabled]="showLoading" mat-button (click)="onSubmitSource()" class="btn btn-success"><i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp; Next</button>
             <button #buttonNextValidateSrc mat-button matStepperNext class="btn btn-success" style="display: none;">Next</button>
         </div>
         </form>
@@ -151,7 +151,7 @@
         <div>
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
-            <button mat-button class="btn btn-success" (click)="onSubmitDes()">Next</button>
+            <button mat-button class="btn btn-success" (click)="onSubmitDes()" [disabled]='showLoading'><i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp; Next</button>
             <button #buttonNextValidateDes mat-button matStepperNext class="btn btn-success" style="display: none;">Next</button>
         </div>
         </form>
@@ -190,7 +190,7 @@
         <div>
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
-            <button mat-button matStepperNext (click)="onValidateMapping()" class="btn btn-success">Next</button>
+            <button mat-button matStepperNext (click)="onValidateMapping()" class="btn btn-success" [disabled]='showLoading'><i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp; Next</button>
         </div>
         </form>
     </mat-step>
@@ -198,7 +198,7 @@
         <div>
         <button class="btn btn-danger" mat-button matStepperPrevious>Back</button>
         &nbsp;&nbsp;
-        <button mat-button (click)="onSubmitAllInformation()" class="btn btn-success">Start</button>
+        <button mat-button (click)="onSubmitAllInformation()" class="btn btn-success" [disabled]='showLoading'><i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp; Start</button>
         </div>
     </mat-step>
 </mat-horizontal-stepper>

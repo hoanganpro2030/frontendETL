@@ -16,8 +16,8 @@ export class ClientServiceService {
     return this.http.get('http://127.0.0.1:5000/dashboard');
   }
 
-  getEtlById(id) {
-    return this.http.get('http://127.0.0.1:5000/etl/' + id);
+  getEtlById(name) {
+    return this.http.get('http://127.0.0.1:5000/etl/' + name);
   }
 
   updateStatusEtl(id) {
@@ -36,7 +36,7 @@ export class ClientServiceService {
     return this.http.post('http://127.0.0.1:5000/check_inp_source', infoDestination);
   }
 
-  getCols(source: ConnectionInfo, destination: ConnectionInfo) {
+  getCols(source, destination) {
     return this.http.post('http://127.0.0.1:5000/get_cols', {source, destination});
   }
 
@@ -44,7 +44,7 @@ export class ClientServiceService {
     return this.http.post('http://127.0.0.1:5000/mapping_col', {source, destination, mapping});
   }
 
-  submitAllInfo(source: ConnectionInfo, destination: ConnectionInfo, mapping, key: string, name:string) {
+  submitAllInfo(source, destination, mapping, key: string, name:string) {
     return this.http.post('http://127.0.0.1:5000/create_dag', {name, source, destination, mapping, key});
   }
 }

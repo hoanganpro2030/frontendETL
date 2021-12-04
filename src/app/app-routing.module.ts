@@ -7,7 +7,7 @@ import { EtlListComponent } from './body/etl-list/etl-list.component';
 const routes: Routes = [
   {path: '', redirectTo: 'etl-list', pathMatch: 'full'},
   {path: 'etl-list', component: EtlListComponent},
-  {path: 'etl-detail/:id', component: EtlDetailComponent},
+  {path: 'etl-detail/:name', component: EtlDetailComponent},
   {path: 'create-new-etl', component: CreateNewEtlComponent},
 ];
 

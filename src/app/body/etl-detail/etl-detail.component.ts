@@ -10,20 +10,20 @@ import { ClientServiceService } from 'src/app/shared/client-service.service';
   styleUrls: ['./etl-detail.component.css']
 })
 export class EtlDetailComponent implements OnInit {
-  public etlId: number;
+  public etlName: string;
   public etl: EtlDetail;
   constructor(private clientService: ClientServiceService, private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.etlId = this.route.snapshot.params['id'];
-    this.clientService.getEtlById(this.etlId).subscribe(res => {
+    this.etlName = this.route.snapshot.params['name'];
+    this.clientService.getEtlById(this.etlName).subscribe(res => {
       this.etl = res['data'][0];
     })
   }
 
   onDelete(): void {
-    this.clientService.deleteEtl(this.etlId).subscribe(res => {
+    this.clientService.deleteEtl(this.etlName).subscribe(res => {
       console.log(res);
     })
   }
