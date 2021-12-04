@@ -107,8 +107,8 @@ export class CreateNewEtlComponent implements OnInit {
               console.log(res)
               let eld: HTMLElement = this.buttonNextValidateDes.nativeElement as HTMLElement;
               eld.click();
-              let src = res['source'].join(", ");
-              let des = res['destination'].join(", ");
+              let src = res['source'].join(",");
+              let des = res['destination'].join(",");
               this.mappingColumnFormGroup = this._formBuilder.group({
                 columnSrcCtrl: [src, Validators.required],
                 columnDesCtrl: [des, Validators.required],
