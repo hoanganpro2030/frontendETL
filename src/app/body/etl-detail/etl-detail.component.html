@@ -1,29 +1,29 @@
 <div class="row">
     <div class="col-1 offset-1">
-        <span class="lable-top"><h2>ETL1</h2></span>
+        <span class="lable-top"><h2>{{etl.name}}</h2></span>
     </div>
     <div class="col-2 offset-8">
-        <a class="btn btn-danger">Delete</a> 
+        <a class="btn btn-danger" (click)="onDelete()">Delete</a> 
     </div>
 </div>
 
 <div class="row">
     <div class="col-4 offset-2">
         <div class="row">
-            <span class="lable-top"><h2>Source</h2></span>
+            <span class="lable-top"><h2>Source: </h2></span>
         </div>
         <mat-card class="example-card">
             <div class="row">
-                <p>Host</p>
+                <p>Host: {{etl.source_host}}</p>
             </div>
             <div class="row">
-                <p>Database</p>
+                <p>Database: {{etl.source_database}}</p>
             </div>
             <div class="row">
-                <p>Schema</p>
+                <p>Schema: {{etl.source_schema}}</p>
             </div>
             <div class="row">
-                <p>Table</p>
+                <p>Table: {{etl.source_table}}</p>
             </div>
         </mat-card>
         
@@ -35,16 +35,16 @@
         </div>
         <mat-card class="example-card">
             <div class="row">
-                <p>Host</p>
+                <p>Host: {{etl.destination_host}}</p>
             </div>
             <div class="row">
-                <p>Database</p>
+                <p>Database: {{etl.destination_database}}</p>
             </div>
             <div class="row">
-                <p>Schema</p>
+                <p>Schema: {{etl.destination_schema}}</p>
             </div>
             <div class="row">
-                <p>Table</p>
+                <p>Table: {{etl.destination_table}}</p>
             </div>
         </mat-card>
     </div>

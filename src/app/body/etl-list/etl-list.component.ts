@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Etl } from 'src/app/model/etl';
+import { ClientServiceService } from 'src/app/shared/client-service.service';
 
 @Component({
   selector: 'app-etl-list',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EtlListComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private clientService: ClientServiceService) { }
+  public etls: Etl[] = [];
   ngOnInit(): void {
+    this.clientService.getAllEtl().subscribe(response => {
+      this.etls = response['data']
+      console.log(this.etls);
+    });
+  }
+
+  onChangeStatus(id: number): void {
+    this.clientService.updateStatusEtl(id).subscribe(response => {
+      console.log(response);
+    })
   }
 
 }

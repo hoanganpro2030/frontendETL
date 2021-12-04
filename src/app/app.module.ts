@@ -18,6 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import { NotificationService } from './service/notification.service';
+import {NotificationModule} from './notification.module';
 
 @NgModule({
   declarations: [
@@ -41,9 +43,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatStepperModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    NotificationModule
   ],
-  providers: [],
+  providers: [NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

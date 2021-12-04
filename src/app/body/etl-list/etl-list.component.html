@@ -19,10 +19,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr *ngFor="let etl of etls">
             <th class="number-table text"><a class="text"
-                                            routerLink="/etl-detail/1">ETL1</a></th>
-            <th class="text"><mat-slide-toggle></mat-slide-toggle></th>
+                                            routerLink="/etl-detail/{{etl.id}}">{{etl.name}}</a></th>
+            <th class="text"><mat-slide-toggle [(ngModel)]="etl.status" (click)="onChangeStatus(etl.id)"></mat-slide-toggle></th>
         </tr>
         </tbody>
     </table>

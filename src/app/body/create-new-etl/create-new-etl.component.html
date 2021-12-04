@@ -11,16 +11,26 @@
     <mat-step [stepControl]="selecSourcetFormGroup" [editable]="true">
         <form [formGroup]="selecSourcetFormGroup">
         <ng-template matStepLabel>Select source</ng-template>
-        <mat-form-field appearance="fill" class="example-half-width">
-            <mat-label>Source</mat-label>
-            <!-- <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required> -->
-            <mat-select formControlName="sourceCtrl">
-                <mat-option value="Postgresql">Postgresql</mat-option>
-                <mat-option value="MongoDB">MongoDB</mat-option>
-                <mat-option value="SQLServer">SQL Server</mat-option>
-                <mat-option value="MySQL">MySQL</mat-option>
-            </mat-select>
-        </mat-form-field>
+
+        <p>
+            <mat-form-field appearance="fill" class="example-half-width">
+                <mat-label>Name ETL</mat-label>
+                <input matInput formControlName="nameEtlCtrl"
+                        required>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="fill" class="example-half-width">
+                <mat-label>Source</mat-label>
+                <!-- <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required> -->
+                <mat-select formControlName="sourceCtrl">
+                    <mat-option value="postgresql">Postgresql</mat-option>
+                    <mat-option value="mysql">MySQL</mat-option>
+                    <mat-option value="csv">CSV</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+        
         <div>
             <button mat-button matStepperNext class="btn btn-success">Next</button>
         </div>
@@ -81,7 +91,8 @@
         <div>
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
-            <button mat-button matStepperNext (click)="onSubmitSource()" class="btn btn-success">Next</button>
+            <button mat-button (click)="onSubmitSource()" class="btn btn-success">Next</button>
+            <button #buttonNextValidateSrc mat-button matStepperNext class="btn btn-success" style="display: none;">Next</button>
         </div>
         </form>
     </mat-step>
@@ -140,7 +151,8 @@
         <div>
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
-            <button mat-button matStepperNext class="btn btn-success" (click)="onSubmitDes()">Next</button>
+            <button mat-button class="btn btn-success" (click)="onSubmitDes()">Next</button>
+            <button #buttonNextValidateDes mat-button matStepperNext class="btn btn-success" style="display: none;">Next</button>
         </div>
         </form>
     </mat-step>
@@ -168,29 +180,25 @@
                         required>
             </mat-form-field>
         </p>
+        <p>
+            <mat-form-field appearance="fill" class="example-full-width">
+                <mat-label>Key</mat-label>
+                <input matInput formControlName="keyCtrl"
+                        required>
+            </mat-form-field>
+        </p>
         <div>
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
-            <button mat-button matStepperNext class="btn btn-success">Next</button>
+            <button mat-button matStepperNext (click)="onValidateMapping()" class="btn btn-success">Next</button>
         </div>
         </form>
     </mat-step>
     <mat-step [stepControl]="configEtlFormGroup" [editable]="true">
-        <form [formGroup]="configEtlFormGroup">
-            <ng-template matStepLabel>Config ETL</ng-template>
-            <p>
-                <mat-form-field appearance="fill" class="example-half-width">
-                    <mat-label>Name ETL</mat-label>
-                    <input matInput formControlName="nameEtlCtrl"
-                            required>
-                </mat-form-field>
-            </p>
-            <div>
-            <button class="btn btn-danger" mat-button matStepperPrevious>Back</button>
-            &nbsp;&nbsp;
-            <button mat-button (click)="onSubmitAllInformation()" class="btn btn-success">Start</button>
-            </div>
-        </form>
-
+        <div>
+        <button class="btn btn-danger" mat-button matStepperPrevious>Back</button>
+        &nbsp;&nbsp;
+        <button mat-button (click)="onSubmitAllInformation()" class="btn btn-success">Start</button>
+        </div>
     </mat-step>
 </mat-horizontal-stepper>

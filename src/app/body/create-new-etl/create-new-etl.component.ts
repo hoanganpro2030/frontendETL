@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConnectionInfo } from '../../model/connection-info';
 import { ClientServiceService } from '../../shared/client-service.service'
 import { MappingColumn } from 'src/app/model/mapping-column';
+import { NotificationService } from 'src/app/service/notification.service';
+import { NotificationType } from 'src/app/enum/notification-type.enum';
 
 @Component({
   selector: 'app-create-new-etl',
@@ -17,12 +19,19 @@ export class CreateNewEtlComponent implements OnInit {
   mappingColumnFormGroup: FormGroup;
   configEtlFormGroup: FormGroup;
   isEditable = false;
+  desInfo: ConnectionInfo;
+  sourceInfo: ConnectionInfo;
+  mappingInfo: {};
 
-  constructor(private _formBuilder: FormBuilder, private clientService: ClientServiceService) {}
+  @ViewChild('buttonNextValidateSrc') buttonNextValidateSrc : ElementRef;
+  @ViewChild('buttonNextValidateDes') buttonNextValidateDes : ElementRef;
+
+  constructor(private _formBuilder: FormBuilder, private clientService: ClientServiceService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.selecSourcetFormGroup = this._formBuilder.group({
-      sourceCtrl: ['', Validators.required]
+      nameEtlCtrl: ['', Validators.required],
+      sourceCtrl: ['', Validators.required],
     });
     this.infoSoureFormGroup = this._formBuilder.group({
       hostSrcCtrl: ['', Validators.required],
@@ -46,31 +55,99 @@ export class CreateNewEtlComponent implements OnInit {
       columnSrcCtrl: ['', Validators.required],
       columnDesCtrl: ['', Validators.required],
       mappingCtrl: ['', Validators.required],
-    });
-    this.configEtlFormGroup = this._formBuilder.group({
-      nameEtlCtrl: ['', Validators.required],
+      keyCtrl: ['', Validators.required]
     });
   }
 
   onSubmitSource() : void {
     if (this.infoSoureFormGroup.valid) {
-      let sourceInfo: ConnectionInfo = this.infoSoureFormGroup.value;
-      this.clientService.validateInfoSource(sourceInfo);
+      this.sourceInfo = {
+        'typ': this.selecSourcetFormGroup.value.sourceCtrl,
+        'host': this.infoSoureFormGroup.value.hostSrcCtrl,
+        'port': this.infoSoureFormGroup.value.portSrcCtrl,
+        'username': this.infoSoureFormGroup.value.usernameSrcCtrl,
+        'password': this.infoSoureFormGroup.value.passwordSrcCtrl,
+        'database': this.infoSoureFormGroup.value.databaseSrcCtrl,
+        'schema': this.infoSoureFormGroup.value.schemaSrcCtrl,
+        'table_name': this.infoSoureFormGroup.value.tableSrcCtrl
+      };
+      console.log(this.sourceInfo);
+      this.clientService.validateInfoSource(this.sourceInfo).subscribe(response => {
+        if (response['reason']) {
+          this.notificationService.notify(NotificationType.ERROR, response['reason']);
+        } else {
+          let el: HTMLElement = this.buttonNextValidateSrc.nativeElement as HTMLElement;
+          el.click();
+        }
+      });
     }
   }
 
   onSubmitDes() : void {
     if (this.infoDestinationFormGroup.valid) {
-      let desInfo: ConnectionInfo = this.infoDestinationFormGroup.value;
-      this.clientService.validateInfoDestination(desInfo);
+      this.desInfo = {
+        'typ': 'postgresql',
+        'host': this.infoDestinationFormGroup.value.hostDesCtrl,
+        'port': this.infoDestinationFormGroup.value.portDesCtrl,
+        'username': this.infoDestinationFormGroup.value.usernameDesCtrl,
+        'password': this.infoDestinationFormGroup.value.passwordDesCtrl,
+        'database': this.infoDestinationFormGroup.value.databaseDesCtrl,
+        'schema': this.infoDestinationFormGroup.value.schemaDesCtrl,
+        'table_name': this.infoDestinationFormGroup.value.tableDesCtrl
+      };
+      console.log(this.desInfo);
+      this.clientService.validateInfoDestination(this.desInfo).subscribe(response => {
+        if (response['reason']) {
+          this.notificationService.notify(NotificationType.ERROR, response['reason']);
+        } else {
+          this.clientService.getCols(this.sourceInfo, this.desInfo).subscribe(res => {
+            if (res['reason']) {
+              this.notificationService.notify(NotificationType.ERROR, res['reason']);
+            } else {
+              console.log(res)
+              let eld: HTMLElement = this.buttonNextValidateDes.nativeElement as HTMLElement;
+              eld.click();
+              let src = res['source'].join(", ");
+              let des = res['destination'].join(", ");
+              this.mappingColumnFormGroup = this._formBuilder.group({
+                columnSrcCtrl: [src, Validators.required],
+                columnDesCtrl: [des, Validators.required],
+                mappingCtrl: ['', Validators.required],
+                keyCtrl: ['', Validators.required]
+              });
+            }
+          })
+        }
+      });
     }
   }
 
+  onValidateMapping(): void {
+    this.clientService.mappingCols(this.mappingColumnFormGroup.value.columnSrcCtrl, 
+      this.mappingColumnFormGroup.value.columnDesCtrl, 
+      this.mappingColumnFormGroup.value.mappingCtrl).subscribe(res => {
+        if (res['reason']) {
+          this.notificationService.notify(NotificationType.ERROR, res['reason']);
+        } else {
+          console.log(res)
+          let eld: HTMLElement = this.buttonNextValidateDes.nativeElement as HTMLElement;
+          eld.click();
+          this.mappingInfo = res['mapping'];
+        }
+      })
+  }
+
   onSubmitAllInformation() : void {
-    let sourceDBMS: string = this.selecSourcetFormGroup.value.sourceCtrl;
-    let sourceInfo: ConnectionInfo = this.infoSoureFormGroup.value;
-    let desInfo: ConnectionInfo = this.infoDestinationFormGroup.value;
-    let mappingInfo: MappingColumn = this.mappingColumnFormGroup.value;
-    this.clientService.submitAllInfo(sourceDBMS, sourceInfo, desInfo, mappingInfo);
+    this.clientService.submitAllInfo(this.sourceInfo, 
+      this.desInfo, 
+      this.mappingInfo,
+      this.mappingColumnFormGroup.value.keyCtrl, 
+      this.selecSourcetFormGroup.value.nameEtlCtrl).subscribe(res => {
+        if (res['reason']) {
+          this.notificationService.notify(NotificationType.ERROR, res['reason']);
+        } else {
+          this.notificationService.notify(NotificationType.SUCCESS, 'Create success !');
+        }
+      });
   }
 }
