@@ -25,6 +25,7 @@ export class EtlDetailComponent implements OnInit {
   onDelete(): void {
     this.clientService.deleteEtl(this.etlName).subscribe(res => {
       console.log(res);
+      this.router.navigate
     })
   }
 

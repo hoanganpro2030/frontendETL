@@ -191,6 +191,7 @@
             <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
             &nbsp;&nbsp;
             <button mat-button matStepperNext (click)="onValidateMapping()" class="btn btn-success" [disabled]='showLoading'><i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp; Next</button>
+            <button #buttonNextValidateMapping mat-button matStepperNext style="display: none;"></button>
         </div>
         </form>
     </mat-step>

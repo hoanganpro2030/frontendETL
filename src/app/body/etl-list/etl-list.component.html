@@ -21,8 +21,8 @@
         <tbody>
         <tr *ngFor="let etl of etls">
             <th class="number-table text"><a class="text"
-                                            routerLink="/etl-detail/{{etl.id}}">{{etl.name}}</a></th>
-            <th class="text"><mat-slide-toggle [(ngModel)]="etl.status" (click)="onChangeStatus(etl.id)"></mat-slide-toggle></th>
+                                            routerLink="/etl-detail/{{etl.name}}">{{etl.name}}</a></th>
+            <th class="text"><mat-slide-toggle [(ngModel)]="etl.status" (click)="onChangeStatus(etl.name)"></mat-slide-toggle></th>
         </tr>
         </tbody>
     </table>

@@ -5,6 +5,7 @@ import { ClientServiceService } from '../../shared/client-service.service'
 import { MappingColumn } from 'src/app/model/mapping-column';
 import { NotificationService } from 'src/app/service/notification.service';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-new-etl',
@@ -26,8 +27,10 @@ export class CreateNewEtlComponent implements OnInit {
 
   @ViewChild('buttonNextValidateSrc') buttonNextValidateSrc : ElementRef;
   @ViewChild('buttonNextValidateDes') buttonNextValidateDes : ElementRef;
+  @ViewChild('buttonNextValidateMapping') buttonNextValidateMapping : ElementRef;
 
-  constructor(private _formBuilder: FormBuilder, private clientService: ClientServiceService, private notificationService: NotificationService) {}
+  constructor(private _formBuilder: FormBuilder, private clientService: ClientServiceService, 
+    private notificationService: NotificationService, private router: Router) {}
 
   ngOnInit() {
     this.selecSourcetFormGroup = this._formBuilder.group({
@@ -139,7 +142,7 @@ export class CreateNewEtlComponent implements OnInit {
           this.notificationService.notify(NotificationType.ERROR, res['reason']);
         } else {
           console.log(res)
-          let eld: HTMLElement = this.buttonNextValidateDes.nativeElement as HTMLElement;
+          let eld: HTMLElement = this.buttonNextValidateMapping.nativeElement as HTMLElement;
           eld.click();
           this.mappingInfo = res['mapping'];
         }
@@ -158,6 +161,7 @@ export class CreateNewEtlComponent implements OnInit {
           this.notificationService.notify(NotificationType.ERROR, res['reason']);
         } else {
           this.notificationService.notify(NotificationType.SUCCESS, 'Create success !');
+          this.router.navigateByUrl('etl-list');
         }
       });
   }
