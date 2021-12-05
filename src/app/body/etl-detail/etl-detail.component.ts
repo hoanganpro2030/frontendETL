@@ -20,6 +20,8 @@ export class EtlDetailComponent implements OnInit {
     this.etlName = this.route.snapshot.params['name'];
     this.clientService.getEtlById(this.etlName).subscribe(res => {
       this.etl = res['data'][0];
+      console.log(this.etl);
+      console.log(this.etl.log);
     })
   }
 
