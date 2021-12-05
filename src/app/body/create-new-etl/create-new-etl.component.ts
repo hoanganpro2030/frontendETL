@@ -16,6 +16,7 @@ export class CreateNewEtlComponent implements OnInit {
 
   selecSourcetFormGroup: FormGroup;
   infoSoureFormGroup: FormGroup;
+  infoSoureCsvGroup: FormGroup;
   infoDestinationFormGroup: FormGroup;
   mappingColumnFormGroup: FormGroup;
   configEtlFormGroup: FormGroup;
@@ -24,11 +25,14 @@ export class CreateNewEtlComponent implements OnInit {
   sourceInfo: ConnectionInfo;
   mappingInfo: {};
   showLoading = false;
+  isCsv: boolean;
+  file:File;
 
   @ViewChild('buttonNextValidateSrc') buttonNextValidateSrc : ElementRef;
   @ViewChild('buttonNextValidateDes') buttonNextValidateDes : ElementRef;
   @ViewChild('buttonNextValidateMapping') buttonNextValidateMapping : ElementRef;
-
+  @ViewChild('buttonNextFileSrc') buttonNextFileSrc : ElementRef;
+  
   constructor(private _formBuilder: FormBuilder, private clientService: ClientServiceService, 
     private notificationService: NotificationService, private router: Router) {}
 
@@ -61,6 +65,19 @@ export class CreateNewEtlComponent implements OnInit {
       mappingCtrl: ['', Validators.required],
       keyCtrl: ['', Validators.required]
     });
+    this.infoSoureCsvGroup = this._formBuilder.group({
+      fileCtrl: [null, Validators.required],
+    });
+  }
+
+  onSubmitSelectSource(): void {
+    if (this.selecSourcetFormGroup.valid) {
+      if (this.selecSourcetFormGroup.value.sourceCtrl == 'csv') {
+        this.isCsv = true;
+      } else {
+        this.isCsv = false;
+      }
+    }
   }
 
   onSubmitSource() : void {
@@ -87,6 +104,29 @@ export class CreateNewEtlComponent implements OnInit {
           this.sourceInfo['id'] = response['source']['id'];
         }
       });
+    }
+  }
+
+  onFileSelected(event) {
+    this.file = event.target.files[0];
+  }
+
+  onSubmitFile() {
+    if (this.file) {
+      const formData = new FormData();
+      formData.append("file", this.file);
+      this.showLoading = true;
+      this.clientService.submitFile(formData).subscribe(res => {
+        this.showLoading = false;
+        if (res['reason']) {
+          this.notificationService.notify(NotificationType.ERROR, res['reason']);
+        } else {
+          this.sourceInfo = res['source'];
+          console.log(this.sourceInfo); 
+          let el: HTMLElement = this.buttonNextFileSrc.nativeElement as HTMLElement;
+          el.click();
+        }
+      })
     }
   }
 

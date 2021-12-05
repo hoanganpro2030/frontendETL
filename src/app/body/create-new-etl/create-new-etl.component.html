@@ -32,11 +32,25 @@
         </p>
         
         <div>
-            <button mat-button matStepperNext class="btn btn-success">Next</button>
+            <button mat-button matStepperNext class="btn btn-success" (click)="onSubmitSelectSource()">Next</button>
         </div>
         </form>
     </mat-step>
-    <mat-step [stepControl]="infoSoureFormGroup" [editable]="true">
+
+    <mat-step *ngIf="isCsv" [stepControl]="infoSoureCsvGroup" [editable]="true" [optional]="true">
+            <ng-template matStepLabel>Info source</ng-template>
+        <p>
+            <input id="inputFile" type="file" accept="csv" (change)="onFileSelected($event)" required>
+        </p>
+        <div>
+            <button mat-button matStepperPrevious class="btn btn-danger">Back</button>
+            &nbsp;&nbsp;
+            <button [disabled]="showLoading" mat-button (click)="onSubmitFile()" class="btn btn-success"><i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp; Next</button>
+            <button #buttonNextFileSrc mat-button matStepperNext class="btn btn-success" style="display: none;">Next</button>
+        </div>
+    </mat-step>
+
+    <mat-step *ngIf="!isCsv" [stepControl]="infoSoureFormGroup" [editable]="true">
         <form [formGroup]="infoSoureFormGroup">
         <ng-template matStepLabel>Info source</ng-template>
         <p>

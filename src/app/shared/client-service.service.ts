@@ -47,4 +47,8 @@ export class ClientServiceService {
   submitAllInfo(source, destination, mapping, key: string, name:string) {
     return this.http.post('http://127.0.0.1:5000/create_dag', {name, source, destination, mapping, key});
   }
+
+  submitFile(formData: FormData) {
+    return this.http.post('http://127.0.0.1:5000/get_csv', formData);
+  }
 }

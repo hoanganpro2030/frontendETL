@@ -49,10 +49,13 @@
         </mat-card>
     </div>
 </div>
-<div class="row" *ngIf="etl.log != ''">
+<div class="row offset-2 col-8 mt-5">
+    <div class="row">
+        <span class="lable-top"><h2>Log: </h2></span>
+    </div>
     <mat-card class="example-card">
         <p>{{etl.log}}</p>
     </mat-card>
 </div>
-<a class="btn btn-success offset-1" routerLink="/etl-list">Back</a>
+<a class="btn btn-success offset-1 mt-5" routerLink="/etl-list">Back</a>
 
