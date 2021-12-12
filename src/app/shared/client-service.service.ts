@@ -44,8 +44,8 @@ export class ClientServiceService {
     return this.http.post('http://127.0.0.1:5000/mapping_col', {source, destination, mapping});
   }
 
-  submitAllInfo(source, destination, mapping, key: string, name:string) {
-    return this.http.post('http://127.0.0.1:5000/create_dag', {name, source, destination, mapping, key});
+  submitAllInfo(source, destination, mapping, key: string, scheduler: string, name:string) {
+    return this.http.post('http://127.0.0.1:5000/create_dag', {name, source, destination, mapping, key, scheduler});
   }
 
   submitFile(formData: FormData) {

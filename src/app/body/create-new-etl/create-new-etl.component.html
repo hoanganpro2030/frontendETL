@@ -210,11 +210,26 @@
         </form>
     </mat-step>
     <mat-step [stepControl]="configEtlFormGroup" [editable]="true">
-        <ng-template matStepLabel>Start Etl</ng-template>
-        <div>
-        <button class="btn btn-danger" mat-button matStepperPrevious>Back</button>
-        &nbsp;&nbsp;
-        <button mat-button (click)="onSubmitAllInformation()" class="btn btn-success" [disabled]='showLoading'><i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp; Start</button>
-        </div>
+        <form [formGroup]="configEtlFormGroup">
+            <ng-template matStepLabel>Start Etl</ng-template>
+            <p>
+                <mat-form-field appearance="fill" class="example-half-width">
+                    <mat-label>Scheduler</mat-label>
+                    <mat-select formControlName="schedulerCtrl">
+                        <mat-option value="00:02">2 minutes</mat-option>
+                        <mat-option value="00:05">5 minutes</mat-option>
+                        <mat-option value="00:10">10 minutes</mat-option>
+                        <mat-option value="00:30">30 minutes</mat-option>
+                        <mat-option value="01:00">1 hour</mat-option>
+                        <mat-option value="24:00">1 day</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </p>
+            <div>
+                <button class="btn btn-danger" mat-button matStepperPrevious>Back</button>
+                &nbsp;&nbsp;
+                <button mat-button (click)="onSubmitAllInformation()" class="btn btn-success" [disabled]='showLoading'><i *ngIf="showLoading" class="fas fa-spinner fa-spin"></i>&nbsp; Start</button>
+            </div>
+        </form>
     </mat-step>
 </mat-horizontal-stepper>

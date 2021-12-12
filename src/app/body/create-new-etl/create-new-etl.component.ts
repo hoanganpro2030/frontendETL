@@ -68,6 +68,9 @@ export class CreateNewEtlComponent implements OnInit {
     this.infoSoureCsvGroup = this._formBuilder.group({
       fileCtrl: [null, Validators.required],
     });
+    this.configEtlFormGroup = this._formBuilder.group({
+      schedulerCtrl: [null, Validators.required],
+    });
   }
 
   onSubmitSelectSource(): void {
@@ -194,7 +197,8 @@ export class CreateNewEtlComponent implements OnInit {
     this.clientService.submitAllInfo(this.sourceInfo, 
       this.desInfo, 
       this.mappingInfo,
-      this.mappingColumnFormGroup.value.keyCtrl, 
+      this.mappingColumnFormGroup.value.keyCtrl,
+      this.configEtlFormGroup.value.schedulerCtrl,
       this.selecSourcetFormGroup.value.nameEtlCtrl).subscribe(res => {
         this.showLoading = false;
         if (res['reason']) {
